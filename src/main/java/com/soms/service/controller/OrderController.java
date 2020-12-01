@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,34 +18,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.soms.service.businessService.OrderBusinessService;
 import com.soms.service.entity.Order;
 import com.soms.service.exception.ResourceNotFoundException;
 import com.soms.service.repository.OrderRepository;
 
+@EnableOAuth2Sso
 @RestController
 @RequestMapping("/somsapi/orders")
 public class OrderController {
 
 	@Autowired
 	private OrderRepository orderRepo;
+	
+	@Autowired
+	private OrderBusinessService orderbusinessService;
 
 
 	//get all orders
 	@GetMapping
 	public List<Order> getallOrders(){
-		return this.orderRepo.findAll();
+		return this.orderbusinessService.getAllOrders();
 	}
 	// get order by id
 	@GetMapping("/{id}")
 	public Order getOrderbyId(@PathVariable(value = "id") int id) {
-		return this.orderRepo.findById(id)
-				.orElseThrow(()-> new ResourceNotFoundException("order does not exist"));
+		return this.orderbusinessService.getOrder(id);
 	}
 	//create order
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public Order createOrder(@Valid @RequestBody Order order) {
-		return this.orderRepo.save(order);
+		return this.orderbusinessService.createOrder(order);
 	}
 	//update order
 	@PutMapping("/{id}")
@@ -61,7 +66,7 @@ public class OrderController {
     public ResponseEntity<Order> deleteOrder(@PathVariable(value ="id") int id){
 		Order existingOrder = this.orderRepo.findById(id)
 				.orElseThrow(()-> new ResourceNotFoundException("order does not exist"));
-		this.orderRepo.delete(existingOrder);
+		this.orderbusinessService.deleteOrders(existingOrder);
 		return ResponseEntity.ok().build();
 	}
 }
