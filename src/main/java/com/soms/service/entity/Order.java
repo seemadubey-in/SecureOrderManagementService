@@ -21,7 +21,7 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "orderId")
-	private int id;
+	private Long id;
 	@ValidateStatus(acceptedValues = { "N", "I",
 			"C" }, message = "Invalid status,Please provide one valid status from N, I or C")
 	@Column(name = "orderStatus")
@@ -30,26 +30,23 @@ public class Order {
 	@DecimalMin("2.00")
 	@Column(name = "orderPrice")
 	private BigDecimal totalPrice;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@NotNull(message = "Please provide a date.")
 	@Column(name = "orderDate")
 	private Date date;
 
 	public Order() {
-	}
+	} 
 
-	public Order(String status, BigDecimal totalPrice, Date date) {
+	public Order(String status, BigDecimal totalPrice) {
 		super();
 		this.status = status;
 		this.totalPrice = totalPrice;
-		this.date = date;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -42,6 +42,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<Object>(errordetails, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(RequestStructureNotValid.class)
+	protected ResponseEntity<Object> handleInvalidObjecttoSave(RequestStructureNotValid ex, WebRequest request) {
+		ErrorDetails errordetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		return new ResponseEntity<Object>(errordetails, HttpStatus.BAD_REQUEST);
+	}
+	
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
