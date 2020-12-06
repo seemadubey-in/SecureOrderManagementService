@@ -25,7 +25,7 @@ public class OrderInLoadController {
      public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
        String message = "";
        System.out.println("inside controller");
-       if (CSVHelper.hasCSVFormat(file)) {
+       if (CSVHelper.hasCSVFormat(file)) { 
          try {
         	 orderinloadService.deleteAllRecords();
         	 orderinloadService.save(file);
