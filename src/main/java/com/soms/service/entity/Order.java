@@ -74,4 +74,9 @@ public class Order {
 		this.date = date;
 	}
 
+	@Override
+	public String toString() {
+		return "order id: " + id + ", status: " + status + ", totalPrice: " + totalPrice;
+	}
+
 }
