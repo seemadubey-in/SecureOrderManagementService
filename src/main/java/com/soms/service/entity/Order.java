@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import com.soms.service.validation.ValidateStatus;
 
@@ -26,6 +27,7 @@ public class Order {
 	private String status;
 	@NotNull(message = "Please provide a price")
 	@DecimalMin("2.00")
+    @Digits(integer=3, fraction=2)
 	@Column(name = "orderPrice")
 	private BigDecimal totalPrice;
 	@Column(name = "orderDate")

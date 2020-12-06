@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.soms.service.businessService.OrderBusinessService;
+import com.soms.service.businessService.ResponseMessage;
 import com.soms.service.entity.Order;
 
 
@@ -54,8 +55,8 @@ public class OrderController {
 	}
 	//delete order by id
 	@DeleteMapping("/{id}")
-    public ResponseEntity<Order> deleteOrder(@PathVariable(value ="id") Long id){
+    public  ResponseEntity<ResponseMessage> deleteOrder(@PathVariable(value ="id") Long id){
 		this.orderbusinessService.deleteOrders(id);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(new ResponseMessage("Order with order id "+id+" Deleted successfully"));
 	}
 }
