@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +22,7 @@ import com.soms.service.entity.Order;
 import com.soms.service.exception.ResourceNotFoundException;
 import com.soms.service.repository.OrderRepository;
 
-@EnableOAuth2Sso
+
 @RestController
 @RequestMapping("/somsapi/orders")
 public class OrderController {
