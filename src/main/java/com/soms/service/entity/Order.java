@@ -33,7 +33,7 @@ public class Order {
 	@Column(name = "orderDate")
 	private Date date;
 
-	public Order() {
+	public Order() { 
 	} 
 
 	public Order(String status, BigDecimal totalPrice) {

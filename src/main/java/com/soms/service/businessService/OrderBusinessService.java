@@ -21,7 +21,7 @@ public class OrderBusinessService  {
 		
 	}
 	
-	public Order getOrder(int id) {
+	public Order getOrder(Long id) {
 		return orderRepo.findById(id)
 				.orElseThrow(()-> new ResourceNotFoundException("order does not exist"));
 	}
@@ -32,6 +32,13 @@ public class OrderBusinessService  {
 		}
 		order.setDate(new Date());
 		return orderRepo.save(order);
+	}
+	public Order updateOrder(Order order, Long id) {
+		Order existingOrder = this.orderRepo.findById(id)
+				.orElseThrow(()-> new ResourceNotFoundException("order does not exist"));
+		existingOrder.setStatus(order.getStatus());
+		existingOrder.setTotalPrice(order.getTotalPrice());
+		return this.orderRepo.save(existingOrder);
 	}
 	public String deleteOrders(Order order) {
 		orderRepo.delete(order);

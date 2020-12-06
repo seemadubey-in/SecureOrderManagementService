@@ -41,7 +41,7 @@ public class OrderController {
 	}
 	// get order by id
 	@GetMapping("/{id}")
-	public Order getOrderbyId(@PathVariable(value = "id") int id) {
+	public Order getOrderbyId(@PathVariable(value = "id") Long id) {
 		return this.orderbusinessService.getOrder(id);
 	}
 	//create order
@@ -52,17 +52,12 @@ public class OrderController {
 	}
 	//update order
 	@PutMapping("/{id}")
-	public Order updateOrder(@Valid @RequestBody Order order, @PathVariable (value ="id") int id) {
-		Order existingOrder = this.orderRepo.findById(id)
-				.orElseThrow(()-> new ResourceNotFoundException("order does not exist"));
-		existingOrder.setStatus(order.getStatus());
-		existingOrder.setTotalPrice(order.getTotalPrice());
- 		existingOrder.setDate(order.getDate());
-		return this.orderRepo.save(existingOrder);
+	public Order updateOrder(@Valid @RequestBody Order order, @PathVariable (value ="id") Long id) {
+		return this.orderbusinessService.updateOrder(order, id);
 	}
 	//delete order by id
 	@DeleteMapping("/{id}")
-    public ResponseEntity<Order> deleteOrder(@PathVariable(value ="id") int id){
+    public ResponseEntity<Order> deleteOrder(@PathVariable(value ="id") Long id){
 		Order existingOrder = this.orderRepo.findById(id)
 				.orElseThrow(()-> new ResourceNotFoundException("order does not exist"));
 		this.orderbusinessService.deleteOrders(existingOrder);
