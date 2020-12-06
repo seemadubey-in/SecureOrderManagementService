@@ -40,8 +40,10 @@ public class OrderBusinessService  {
 		existingOrder.setTotalPrice(order.getTotalPrice());
 		return this.orderRepo.save(existingOrder);
 	}
-	public String deleteOrders(Order order) {
-		orderRepo.delete(order);
+	public String deleteOrders(Long id) {
+		Order existingOrder = this.orderRepo.findById(id)
+				.orElseThrow(()-> new ResourceNotFoundException("order does not exist"));
+		this.orderRepo.delete(existingOrder);
 		return "Deletion done";
 	}
 	

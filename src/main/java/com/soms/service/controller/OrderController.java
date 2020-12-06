@@ -19,16 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.soms.service.businessService.OrderBusinessService;
 import com.soms.service.entity.Order;
-import com.soms.service.exception.ResourceNotFoundException;
-import com.soms.service.repository.OrderRepository;
 
 
 @RestController
 @RequestMapping("/somsapi/orders")
 public class OrderController {
 
-	@Autowired
-	private OrderRepository orderRepo;
+
 	
 	@Autowired
 	private OrderBusinessService orderbusinessService;
@@ -58,9 +55,7 @@ public class OrderController {
 	//delete order by id
 	@DeleteMapping("/{id}")
     public ResponseEntity<Order> deleteOrder(@PathVariable(value ="id") Long id){
-		Order existingOrder = this.orderRepo.findById(id)
-				.orElseThrow(()-> new ResourceNotFoundException("order does not exist"));
-		this.orderbusinessService.deleteOrders(existingOrder);
+		this.orderbusinessService.deleteOrders(id);
 		return ResponseEntity.ok().build();
 	}
 }
