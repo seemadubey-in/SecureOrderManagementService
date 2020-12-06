@@ -1,5 +1,7 @@
 package com.soms.service.controller;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +27,20 @@ public class OrderInLoadController {
        System.out.println("inside controller");
        if (CSVHelper.hasCSVFormat(file)) {
          try {
-        	 System.out.println("inside controller3333333333333333");
+        	 orderinloadService.deleteAllRecords();
         	 orderinloadService.save(file);
 
            message = "Uploaded the file successfully: " + file.getOriginalFilename();
            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-         } catch (Exception e) {
+         } 
+         catch (ConstraintViolationException e) {
+             message = "Could not upload the file status must have only values N,I,C: " + file.getOriginalFilename() + "! ";
+             e.printStackTrace();
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+           }
+         catch (Exception e) {
            message = "Could not upload the file: " + file.getOriginalFilename() + "! ";
-           e.printStackTrace();;
+           e.printStackTrace();
            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
          }
        }
